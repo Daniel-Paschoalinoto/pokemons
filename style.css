@@ -130,6 +130,35 @@ footer img:hover {
   letter-spacing: 0.02em;
 }
 
+.loading {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  color: #444;
+  padding: 20px 40px;
+  border-radius: 12px;
+  border: 3px solid #ef5350;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  font-weight: 600;
+  font-size: 1.1rem;
+  z-index: 2000;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.05);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
 @keyframes glow {
   0%, 100% {
     box-shadow: 0 0 8px 3px var(--border-color-hover, rgba(239, 83, 80, 0.6));

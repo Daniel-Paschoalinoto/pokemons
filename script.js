@@ -19,27 +19,38 @@ const typeColors = {
   fairy: "#D685AD",
 };
 
+const loading = document.getElementById("loading");
+
 async function receberDadosPokemon() {
-  const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=151");
-  const data = await response.json();
-  const pokemons = data.results;
-  const arrayDados = [];
+  try {
+    loading.style.display = "block"; // Mostrar o loader
 
-  for (const pokemon of pokemons) {
-    const res = await fetch(pokemon.url);
-    const detalhes = await res.json();
+    const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=151");
+    const data = await response.json();
+    const pokemons = data.results;
+    const arrayDados = [];
 
-    const nome = detalhes.name.charAt(0).toUpperCase() + detalhes.name.slice(1);
-    const id = detalhes.id;
-    const backImg = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/back/${id}.gif`;
-    const frontImg = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/${id}.gif`;
-    const cry = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/${id}.ogg`;
-    const types = detalhes.types;
+    for (const pokemon of pokemons) {
+      const res = await fetch(pokemon.url);
+      const detalhes = await res.json();
 
-    arrayDados.push({ nome, backImg, frontImg, cry, types });
+      const nome = detalhes.name.charAt(0).toUpperCase() + detalhes.name.slice(1);
+      const id = detalhes.id;
+      const backImg = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/back/${id}.gif`;
+      const frontImg = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/${id}.gif`;
+      const cry = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/${id}.ogg`;
+      const types = detalhes.types;
+
+      arrayDados.push({ nome, backImg, frontImg, cry, types });
+    }
+
+    renderizarPokemons(arrayDados);
+  } catch (error) {
+    alert("Erro ao carregar os Pokémons. Tente novamente mais tarde.");
+    console.error(error);
+  } finally {
+    loading.style.display = "none"; // Esconde o loader
   }
-
-  renderizarPokemons(arrayDados);
 }
 
 function renderizarPokemons(lista) {
